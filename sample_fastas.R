@@ -1,10 +1,11 @@
 
 #setwd("C:/Users/Katherine Holsteen/Documents/My Documents/Coursework/S17_GENE245/project/Data3")
+setwd("/afs/.ir.stanford.edu/users/k/k/kkroeger/GENE245/Data5")
 
 source("http://bioconductor.org/biocLite.R")
 library('seqinr')
 
-faFull <- read.fasta("ATAC-RC_Rep1_bedalignment.window.fasta")
+faFull <- read.fasta("ATAC-RC_Rep1_summits_bedalignment.window.fasta")
 fdFull <- read.fasta("Duke_DNase_bedalignment.window.fasta")
 set.seed(568393)
 nTrain = 2400

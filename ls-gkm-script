@@ -1,15 +1,22 @@
 #!/bin/bash
 
+cd /afs/.ir.stanford.edu/users/k/k/kkroeger/GENE245/Data5
+
+Rscript ../Code/sample_fastas.R
+
 #Run LS-SVM on ATAC-seq vs. DNAse-seq
  
 KMER_LENGTH=7
  
 for k in 0 1 2 3 4 5
 do
-    ./lsgkm-master/src/gkmtrain -l $KMER_LENGTH -d 1 -k 6 -t $k -c 10 -g 2 -M 50 -H 50 TrainA.fasta TrainD.fasta gkmtrain$k
-    ./lsgkm-master/src/gkmpredict TestD.fasta gkmtrain$k.model.txt PredD_$k
-    ./lsgkm-master/src/gkmpredict TestA.fasta gkmtrain$k.model.txt PredA_$k
-    ./lsgkm-master/src/gkmpredict k7mers gkmtrain$k.model.txt Predk7mers_$k
+    ../Code/lsgkm-master/src/gkmtrain -l $KMER_LENGTH -d 1 -k 6 -t $k -c 10 -g 2 -M 50 -H 50 TrainA.fasta TrainD.fasta gkmtrain$k
+    ../Code/lsgkm-master/src/gkmpredict TestD.fasta gkmtrain$k.model.txt PredD_$k
+    ../Code/lsgkm-master/src/gkmpredict TestA.fasta gkmtrain$k.model.txt PredA_$k
+    ../Code/lsgkm-master/src/gkmpredict k7mers gkmtrain$k.model.txt Predk7mers_$k
 	sort -k 2,2 -n Predk7mers_$k | tail -20 > highest7mers$k.txt
 	sort -k 2,2 -n Predk7mers_$k | head -20 > lowest7mers$k.txt
 done
+
+
+Rscript ../Code/plot_rocs.R

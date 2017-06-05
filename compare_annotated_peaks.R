@@ -1,10 +1,10 @@
 ##Examine annotated peaks
 
-setwd("C:/Users/Katherine Holsteen/Documents/My Documents/Coursework/S17_GENE245/project/Data4")
+setwd("C:/Users/Katherine Holsteen/Documents/My Documents/Coursework/S17_GENE245/project/Data5")
 #1.  In excel:  abbreviated promoter name to first 5 chars --> Anno.Abbrev
-aa <- read.table("ATAC-RC_Rep1_annotatedPeaks.txt",  quote=NULL, nrows=3262,
+aa <- read.table("ATAC-RC_Rep1_window.annotatedPeaks_Abbrev.txt",  quote=NULL, nrows=3262,
                  header=TRUE, sep = "\t", stringsAsFactors=FALSE)
-ad <- read.table("Duke_DNase_annotatedPeaks.txt",  quote=NULL, nrows=124322,   
+ad <- read.table("Duke_DNase_window.annotatedPeaks_Abbrev.txt",  quote=NULL, nrows=124322,   
                  header=TRUE, sep = "\t")
 
 #The distribution of labels is quite different between the two methods
@@ -24,12 +24,12 @@ DistTrimmed <- lapply(Distance, function(t) {
 #a TSS while the DNAse are more spread out, perhaps due to dif. sequencing depth
 pdf(file="TSS_Distance.pdf")
   par(mfrow=c(2,1))
-  plot(density(DistTrimmed[[1]]), col=1, main = "ATAC")
-  plot(density(DistTrimmed[[2]]), type = "l", col=2, main = "DNAse")
+  plot(density(DistTrimmed[[1]]), col=1, 
+       main = "ATAC", xlim=range(-2e+05,3e+05))
+  plot(density(DistTrimmed[[2]]), type = "l", col=2, 
+       main = "DNAse", xlim=range(-2e+05,3e+05))
 dev.off()
 
-##Check Windows --> expected them all to be 201 wide?
-aw <- read.table("ATAC-RC_Rep1.filterBL_window.bed", header=FALSE)
-summary(aw$V3-aw$V2)
-dw <- read.table("Duke_DNase_window.bed", header=FALSE, nrows=124321)
-summary(dw$V3-dw$V2)
+#Check window width --> as expected
+summary(aa$End-aa$Start)
+summary(ad$End-ad$Start)
